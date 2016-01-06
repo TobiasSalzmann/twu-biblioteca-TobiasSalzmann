@@ -20,11 +20,12 @@ public class UserStories {
     }
 
     @Test
-    public void testListBooks(){
+    public void testListBooksDetails(){
         Session session = new Session();
         session.listBooks();
-        assertTrue(Arrays.asList("Welcome to Biblioteca!","Book 1", "Book 2").equals(session.history()));
+        assertTrue(Arrays.asList("Welcome to Biblioteca!","Book 1   Author 1    1337", "Book 2  Author 2    1976").equals(session.history()));
     }
+
 
 
 }
