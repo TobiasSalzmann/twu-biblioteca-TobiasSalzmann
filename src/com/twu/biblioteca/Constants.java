@@ -5,4 +5,10 @@ package com.twu.biblioteca;
  */
 public class Constants {
     public static final String welcomeString = "Welcome to Biblioteca!";
+    public static final String mainMenuString = "Main Menu: select an option";
+
+    public static final String listBooksString = "list";
+    public static final String listBooksExplanation = "Show List of Books";
+
+
 }

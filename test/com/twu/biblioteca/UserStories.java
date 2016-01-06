@@ -16,15 +16,23 @@ public class UserStories {
     @Test
     public void testWelcomeMessage(){
         Session session = new Session();
-        assertEquals("Welcome to Biblioteca!",session.lastMessage());
+        assertEquals(Constants.welcomeString,session.history().get(0));
     }
 
     @Test
     public void testListBooksDetails(){
         Session session = new Session();
         session.listBooks();
-        assertEquals(Arrays.asList("Welcome to Biblioteca!","Book 1, Author 1, 1337\nBook 2, Author 2, 1976"),session.history());
+        assertEquals("Book 1, Author 1, 1337\nBook 2, Author 2, 1976",session.lastMessage());
     }
+
+    @Test
+    public void testMainMenu(){
+        Session session = new Session();
+        assertEquals(Constants.mainMenuString + "\n" + Constants.listBooksString + " - " + Constants.listBooksExplanation,session.history().get(1));
+    }
+
+
 
 
 
