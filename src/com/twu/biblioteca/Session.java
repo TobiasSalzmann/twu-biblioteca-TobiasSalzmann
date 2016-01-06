@@ -11,7 +11,7 @@ import java.util.List;
 public class Session {
 
     private final LinkedList<String> history = new LinkedList<>(Arrays.asList("Welcome to Biblioteca!"));
-    private final LinkedList<String> books = new LinkedList<>(Arrays.asList("Book 1", "Book 2"));
+    private final LinkedList<String> books = new LinkedList<>(Arrays.asList("Book 1, Author 1, 1337", "Book 2, Author 2, 1976"));
 
     public String lastMessage() {
         return history.get(history.size() - 1);
