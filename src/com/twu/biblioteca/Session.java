@@ -22,8 +22,7 @@ public class Session {
     }
 
     public void listBooks() {
-        for (String e: books)
-            history.add(e);
+        history.add(String.join("\n", books));
     }
 
 }
