@@ -10,7 +10,8 @@ public class Session {
 
     public Session(){
         history.add(Message.welcomeMessage());
-        history.add(Message.mainMenuMessage());
+        showMainMenu();
+
     }
 
     private final LinkedList<Message> history = new LinkedList<>();
@@ -28,5 +29,20 @@ public class Session {
         history.add(Message.bookListMessage());
     }
 
+    private void showMainMenu(){
+        history.add(Message.mainMenuMessage());
+    }
 
+    public void handleInput(String input) {
+        switch(input){
+            case("list"): listBooks(); break;
+            default: handleInvalid();
+        }
+        showMainMenu();
+
+    }
+
+    private void handleInvalid() {
+        history.add(Message.invalidMessage());
+    }
 }

@@ -11,4 +11,5 @@ public class Constants {
     public static final String listBooksExplanation = "Show List of Books";
 
 
+    public static final String invalidOptionString = "Select a valid option!";
 }

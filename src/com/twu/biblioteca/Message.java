@@ -28,4 +28,10 @@ public abstract class Message{
     public static Message mainMenuMessage() {
         return simpleMessage(Constants.mainMenuString + "\n" + Constants.listBooksString + " - " + Constants.listBooksExplanation);
     }
+
+    public static Message invalidMessage() {
+        return simpleMessage(Constants.invalidOptionString);
+    }
+
+
 }
