@@ -2,8 +2,6 @@ package com.twu.biblioteca;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.*;
 
 
@@ -23,13 +21,13 @@ public class UserStories {
     public void testListBooksDetails(){
         Session session = new Session();
         session.listBooks();
-        assertEquals("Book 1, Author 1, 1337\nBook 2, Author 2, 1976",session.lastMessage());
+        assertEquals("Book 1, Author 1, 1337\nBook 2, Author 2, 1976",session.history().get(session.history().size()-2));
     }
 
     @Test
     public void testMainMenu(){
         Session session = new Session();
-        assertEquals(Constants.mainMenuString + "\n" + Constants.listBooksString + " - " + Constants.listBooksExplanation,session.history().get(1));
+        assertEquals(Constants.mainMenuString + "\n" + Constants.listBooksCommand + " - " + Constants.listBooksExplanation,session.history().get(1));
     }
 
     @Test
@@ -44,8 +42,16 @@ public class UserStories {
         Session session = new Session();
         session.handleInput("bogus");
         assertEquals(Constants.invalidOptionString,session.history().get(session.history().size()-2));
-        assertEquals(Constants.mainMenuString + "\n" + Constants.listBooksString + " - " + Constants.listBooksExplanation,session.lastMessage());
+        assertEquals(Constants.mainMenuString + "\n" + Constants.listBooksCommand + " - " + Constants.listBooksExplanation,session.lastMessage());
     }
+
+    @Test
+    public void testQuitOption(){
+        Session session = new Session();
+        session.handleInput("quit");
+        assertEquals(Constants.quitMessage, session.lastMessage());
+    }
+
 
 
 

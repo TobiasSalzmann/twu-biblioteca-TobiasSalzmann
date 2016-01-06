@@ -1,7 +1,5 @@
 package com.twu.biblioteca;
 
-import com.sun.tools.javac.code.Attribute;
-
 /**
  * Created by tsalzman on 1/6/16.
  */
@@ -26,12 +24,14 @@ public abstract class Message{
     }
 
     public static Message mainMenuMessage() {
-        return simpleMessage(Constants.mainMenuString + "\n" + Constants.listBooksString + " - " + Constants.listBooksExplanation);
+        return simpleMessage(Constants.mainMenuString + "\n" + Constants.listBooksCommand + " - " + Constants.listBooksExplanation);
     }
 
     public static Message invalidMessage() {
         return simpleMessage(Constants.invalidOptionString);
     }
 
-
+    public static Message closeMessage() {
+        return simpleMessage(Constants.quitMessage);
+    }
 }

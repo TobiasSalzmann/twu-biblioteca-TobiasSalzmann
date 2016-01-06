@@ -27,6 +27,7 @@ public class Session {
 
     public void listBooks() {
         history.add(Message.bookListMessage());
+        showMainMenu();
     }
 
     private void showMainMenu(){
@@ -35,14 +36,18 @@ public class Session {
 
     public void handleInput(String input) {
         switch(input){
-            case("list"): listBooks(); break;
-            default: handleInvalid();
+            case(Constants.listBooksCommand):listBooks();break;
+            case(Constants.closeCommand):closeSession();break;
+            default:handleInvalid();
         }
-        showMainMenu();
+    }
 
+    private void closeSession(){
+        history.add(Message.closeMessage());
     }
 
     private void handleInvalid() {
         history.add(Message.invalidMessage());
+        showMainMenu();
     }
 }
