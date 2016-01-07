@@ -49,4 +49,8 @@ public abstract class Message{
     public static Message returnSuccessMessage(Book b) {
         return simpleMessage(b.getTitle() + " " + Constants.returnSuccessString);
     }
+
+    public static Message returnFailureMessage() {
+        return simpleMessage(Constants.returnFailureString);
+    }
 }

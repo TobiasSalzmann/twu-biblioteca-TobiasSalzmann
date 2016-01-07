@@ -90,7 +90,7 @@ public class Session {
                 return;
             }
         }
-        writeMessage(Message.checkOutFailureMessage());
+        writeMessage(Message.returnFailureMessage());
         showMainMenu();
 
     }

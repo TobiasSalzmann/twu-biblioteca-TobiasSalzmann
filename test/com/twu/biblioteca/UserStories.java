@@ -95,6 +95,13 @@ public class UserStories {
         assertEquals("Book 1 " + Constants.returnSuccessString, session.history().get(session.history().size()-2));
     }
 
+    @Test
+    public void returnOptionFailure(){
+        Session session = new Session();
+        session.handleInput("return Book 3");
+        assertEquals(Constants.returnFailureString, session.history().get(session.history().size()-2));
+    }
+
 
 
 
