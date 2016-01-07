@@ -72,6 +72,13 @@ public class UserStories {
         assertEquals("Book 2, Author 2, 1976", session.history().get(session.history().size()-2));
     }
 
+    @Test
+    public void checkoutOptionFailure(){
+        Session session = new Session();
+        session.handleInput("checkout Book 3");
+        assertEquals(Constants.checkoutFailureString, session.history().get(session.history().size()-2));
+    }
+
 
 
 

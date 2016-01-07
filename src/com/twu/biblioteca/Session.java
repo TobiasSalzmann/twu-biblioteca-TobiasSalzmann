@@ -75,6 +75,7 @@ public class Session {
             }
         }
         writeMessage(Message.checkOutFailureMessage());
+        showMainMenu();
 
     }
 
