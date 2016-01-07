@@ -28,8 +28,11 @@ public class UserStories {
     public void testMainMenu(){
         Session session = new Session();
         String[] lines = session.history().get(1).split("\n");
+        assertEquals(4, lines.length);
         assertEquals(Constants.mainMenuString, lines[0]);
         assertEquals(Constants.listBooksCommand + " - " + Constants.listBooksDescription, lines[1]);
+        assertEquals(Constants.checkoutCommand + " " + Constants.checkoutParamName + " - " + Constants.checkoutDescription, lines[2]);
+
     }
 
     @Test
