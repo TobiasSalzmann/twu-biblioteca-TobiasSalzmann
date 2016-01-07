@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
  */
 public class Session {
 
-    private final PrintStream outStream;
-    private final Scanner scanner;
+    private PrintStream outStream = null;
+    private Scanner scanner = null;
     private List<Command> commands = Arrays.asList(
             new Command(args -> listBooks(), Constants.listBooksCommand, Constants.listBooksDescription),
             new Command(args -> handleCheckout(args[0]), Constants.checkoutCommand,Constants.checkoutDescription, Constants.checkoutParamName),
@@ -22,15 +22,17 @@ public class Session {
     private Library library = new Library();
 
     public Session(){
-        this(System.in,System.out);
+        this(null,null);
 
     }
 
     private final LinkedList<Message> history = new LinkedList<>();
 
     public Session(InputStream in, PrintStream out) {
-        scanner = new Scanner(in);
-        outStream = out;
+        if(in != null)
+            scanner = new Scanner(in);
+        if(out != null)
+            outStream = out;
         history.add(Message.welcomeMessage());
         showMainMenu();
 
@@ -52,12 +54,16 @@ public class Session {
 
     private void writeMessage(Message message) {
         history.add(message);
+        if(outStream != null)
+            outStream.println(message);
     }
 
     private void showMainMenu(){
         writeMessage(Message.mainMenuMessage(commands));
-        String input = scanner.nextLine();
-        handleInput(input);
+        if(scanner != null){
+            String input = scanner.nextLine();
+            handleInput(input);
+        }
     }
 
 

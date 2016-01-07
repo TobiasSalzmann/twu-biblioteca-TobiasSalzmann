@@ -24,7 +24,6 @@ public abstract class Message{
         };
     }
 
-
     static Message bookListMessage(List<Book> books) {
         return simpleMessage(String.join("\n", Util.mapList(books, Book::toString)));
     }
