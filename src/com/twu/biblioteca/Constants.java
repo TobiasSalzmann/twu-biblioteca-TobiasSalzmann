@@ -24,4 +24,10 @@ public class Constants {
 
     public static final String checkoutSuccessString = "checked out successfully";
     public static final String checkoutFailureString = "Checkout failed";
+
+    public static final String returnSuccessString = "returned successfully";
+
+    public static final String returnCommand = "return";
+    public static final String returnDescription = "Return book";
+    public static final String returnParamName = "<book>";
 }

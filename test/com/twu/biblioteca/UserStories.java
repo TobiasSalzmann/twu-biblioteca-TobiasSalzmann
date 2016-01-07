@@ -28,7 +28,7 @@ public class UserStories {
     public void testMainMenu(){
         Session session = new Session();
         String[] lines = session.history().get(1).split("\n");
-        assertEquals(4, lines.length);
+        assertEquals(5, lines.length);
         assertEquals(Constants.mainMenuString, lines[0]);
         assertEquals(Constants.listBooksCommand + " - " + Constants.listBooksDescription, lines[1]);
         assertEquals(Constants.checkoutCommand + " " + Constants.checkoutParamName + " - " + Constants.checkoutDescription, lines[2]);
@@ -87,7 +87,13 @@ public class UserStories {
         assertEquals(Constants.checkoutFailureString, session.history().get(session.history().size()-2));
     }
 
-
+    @Test
+    public void returnOptionSuccess(){
+        Session session = new Session();
+        session.handleInput("checkout Book 1");
+        session.handleInput("return Book 1");
+        assertEquals("Book 1 " + Constants.returnSuccessString, session.history().get(session.history().size()-2));
+    }
 
 
 

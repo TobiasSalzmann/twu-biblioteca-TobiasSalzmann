@@ -11,6 +11,7 @@ public class Session {
     private List<Command> commands = Arrays.asList(
             new Command(args -> listBooks(), Constants.listBooksCommand, Constants.listBooksDescription),
             new Command(args -> handleCheckout(args[0]), Constants.checkoutCommand,Constants.checkoutDescription, Constants.checkoutParamName),
+            new Command(args -> handleReturn(args[0]), Constants.returnCommand, Constants.returnDescription, Constants.returnParamName),
             new Command(args -> closeSession(), Constants.closeCommand, Constants.closeDescription)
     );
 
@@ -46,6 +47,7 @@ public class Session {
         writeMessage(Message.mainMenuMessage(commands));
     }
 
+
     public void handleInput(String input) {
         int separatingIndex = input.indexOf(' ');
         String name = input;
@@ -70,6 +72,20 @@ public class Session {
             if(s.trim().equals(b.getTitle())){
                 b.checkOut();
                 writeMessage(Message.checkOutSuccessMessage(b));
+                showMainMenu();
+                return;
+            }
+        }
+        writeMessage(Message.checkOutFailureMessage());
+        showMainMenu();
+
+    }
+
+    private void handleReturn(String s) {
+        for (Book b: library.unavailableBooks()){
+            if(s.trim().equals(b.getTitle())){
+                b.returnToLibrary();
+                writeMessage(Message.returnSuccessMessage(b));
                 showMainMenu();
                 return;
             }

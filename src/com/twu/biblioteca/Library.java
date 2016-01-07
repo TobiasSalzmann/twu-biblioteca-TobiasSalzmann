@@ -20,6 +20,10 @@ public class Library {
         return Util.filterList(books, Book::isAvailable);
     }
 
+    List<Book> unavailableBooks(){
+        return Util.filterList(books, b -> !b.isAvailable());
+    }
+
 
 
 }

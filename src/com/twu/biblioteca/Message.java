@@ -45,4 +45,8 @@ public abstract class Message{
     public static Message checkOutFailureMessage() {
         return simpleMessage(Constants.checkoutFailureString);
     }
+
+    public static Message returnSuccessMessage(Book b) {
+        return simpleMessage(b.getTitle() + " " + Constants.returnSuccessString);
+    }
 }

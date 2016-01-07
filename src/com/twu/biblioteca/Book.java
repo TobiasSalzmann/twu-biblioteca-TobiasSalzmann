@@ -28,16 +28,12 @@ public class Book{
         return title;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
     @Override
     public String toString() {
         return String.format("%s, %s, %d",title, author, year);
+    }
+
+    public void returnToLibrary() {
+        this.available = true;
     }
 }
