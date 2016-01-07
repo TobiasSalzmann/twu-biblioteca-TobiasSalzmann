@@ -35,4 +35,11 @@ public class Command {
     public String getName() {
         return name;
     }
+
+    public String toString(){
+        if(paramNames.length == 0)
+            return(name + " - " + description);
+        else
+            return(name + " " + String.join(" ", paramNames) + " - " + description);
+    }
 }

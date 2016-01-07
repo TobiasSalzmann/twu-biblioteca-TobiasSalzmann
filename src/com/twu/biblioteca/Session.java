@@ -43,7 +43,7 @@ public class Session {
     }
 
     private void showMainMenu(){
-        writeMessage(Message.mainMenuMessage());
+        writeMessage(Message.mainMenuMessage(commands));
     }
 
     public void handleInput(String input) {

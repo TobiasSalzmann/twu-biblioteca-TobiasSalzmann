@@ -29,8 +29,9 @@ public abstract class Message{
         return simpleMessage(String.join("\n", Util.mapList(books, Book::toString)));
     }
 
-    static Message mainMenuMessage() {
-        return simpleMessage(Constants.mainMenuString + "\n" + Constants.listBooksCommand + " - " + Constants.listBooksDescription);
+    static Message mainMenuMessage(List<Command> commands) {
+        String options = String.join("\n",Util.mapList(commands,Command::toString));
+        return simpleMessage(Constants.mainMenuString + "\n" + options);
     }
 
     static Message invalidMessage() {

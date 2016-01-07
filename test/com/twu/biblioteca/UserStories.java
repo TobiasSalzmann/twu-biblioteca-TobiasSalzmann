@@ -47,7 +47,7 @@ public class UserStories {
         Session session = new Session();
         session.handleInput("bogus");
         assertEquals(Constants.invalidOptionString,session.history().get(session.history().size()-2));
-        assertEquals(Constants.mainMenuString + "\n" + Constants.listBooksCommand + " - " + Constants.listBooksDescription,session.lastMessage());
+        assertTrue(session.lastMessage().startsWith(Constants.mainMenuString));
     }
 
     @Test
