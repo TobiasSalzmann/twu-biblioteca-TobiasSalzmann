@@ -79,6 +79,15 @@ public class UserStories {
         assertEquals(Constants.checkoutFailureString, session.history().get(session.history().size()-2));
     }
 
+    @Test
+    public void checkoutOptionDoubleRemoval(){
+        Session session = new Session();
+        session.handleInput("checkout Book 1");
+        session.handleInput("checkout Book 1");
+        assertEquals(Constants.checkoutFailureString, session.history().get(session.history().size()-2));
+    }
+
+
 
 
 

@@ -16,13 +16,10 @@ public class Library {
                 new Book("Book 2", "Author 2", 1976)
         );
 
-    List<Book> books(){
-        return booksFiltered(e -> true);
+    List<Book> availableBooks(){
+        return Util.filterList(books, Book::isAvailable);
     }
 
-    List<Book> booksFiltered(Predicate<Book> p){
-        return Util.filterList(books, p);
-    }
 
 
 }

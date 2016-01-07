@@ -33,7 +33,7 @@ public class Session {
     }
 
     public void listBooks() {
-        List<Book> availableBooks = library.booksFiltered(Book::isAvailable);
+        List<Book> availableBooks = library.availableBooks();
         writeMessage(Message.bookListMessage(availableBooks));
         showMainMenu();
     }
@@ -66,7 +66,7 @@ public class Session {
     }
 
     private void handleCheckout(String s) {
-        for (Book b: library.books()){
+        for (Book b: library.availableBooks()){
             if(s.trim().equals(b.getTitle())){
                 b.checkOut();
                 writeMessage(Message.checkOutSuccessMessage(b));
