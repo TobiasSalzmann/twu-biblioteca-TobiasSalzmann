@@ -1,0 +1,38 @@
+package com.twu.biblioteca;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+/**
+ * Created by tsalzman on 1/7/16.
+ */
+public class Command {
+    
+    private String name;
+    private String[] paramNames;
+    private String description;
+    private Consumer<String[]> effect;
+
+    public int getNumArgs(){
+        return paramNames.length;
+    }
+    
+    public String menuEntry(){
+        return (name + " " + String.join(" ",paramNames) + " - " + description);
+    }
+    
+    public void apply(String[] args){
+        effect.accept(args);
+    }
+
+    public Command(Consumer<String[]> effect,String name,String description, String... paramNames) {
+        this.name = name;
+        this.paramNames = paramNames;
+        this.description = description;
+        this.effect = effect;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
