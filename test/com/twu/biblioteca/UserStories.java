@@ -21,32 +21,32 @@ public class UserStories {
     public void testListBooksDetails(){
         Session session = new Session();
         session.listBooks();
-        assertEquals("Book 1, Author 1, 1337\nBook 2, Author 2, 1976",session.history().get(session.history().size()-2));
+        assertEquals("Book 1, Author 1, 1337\nBook 2, Author 2, 1976",session.history(-2));
     }
 
     @Test
     public void testMainMenu(){
         Session session = new Session();
         String[] lines = session.history().get(1).split("\n");
-        assertEquals(5, lines.length);
+        assertTrue(lines.length > 5);
         assertEquals(Constants.mainMenuString, lines[0]);
-        assertEquals(Constants.listBooksCommand + " - " + Constants.listBooksDescription, lines[1]);
-        assertEquals(Constants.checkoutCommand + " " + Constants.checkoutParamName + " - " + Constants.checkoutDescription, lines[2]);
+        assertTrue(session.history().get(1).contains(Constants.listBooksCommand + " - " + Constants.listBooksDescription));
+        assertTrue(session.history().get(1).contains(Constants.checkoutBookCommand + " " + Constants.checkoutBookParamName + " - " + Constants.checkoutBookDescription));
 
     }
 
     @Test
     public void testValidOptionListBooks(){
         Session session = new Session();
-        session.handleInput("list");
-        assertEquals("Book 1, Author 1, 1337\nBook 2, Author 2, 1976",session.history().get(session.history().size()-2));
+        session.handleInput(Constants.listBooksCommand);
+        assertEquals("Book 1, Author 1, 1337\nBook 2, Author 2, 1976",session.history(-2));
     }
 
     @Test
     public void testInvalidOption(){
         Session session = new Session();
         session.handleInput("bogus");
-        assertEquals(Constants.invalidOptionString,session.history().get(session.history().size()-2));
+        assertEquals(Constants.invalidOptionString,session.history(-2));
         assertTrue(session.lastMessage().startsWith(Constants.mainMenuString));
     }
 
@@ -60,46 +60,46 @@ public class UserStories {
     @Test
     public void checkoutOptionSuccess(){
         Session session = new Session();
-        session.handleInput("checkout Book 1");
-        assertEquals("Book 1 " + Constants.checkoutSuccessString, session.history().get(session.history().size()-2));
+        session.handleInput(Constants.checkoutBookCommand + " Book 1");
+        assertEquals("Book 1 " + Constants.checkoutSuccessString, session.history(-2));
     }
 
     @Test
     public void checkoutOptionRemoval(){
         Session session = new Session();
-        session.handleInput("checkout Book 1");
-        session.handleInput("list");
-        assertEquals("Book 2, Author 2, 1976", session.history().get(session.history().size()-2));
+        session.handleInput(Constants.checkoutBookCommand + " Book 1");
+        session.handleInput(Constants.listBooksCommand);
+        assertEquals("Book 2, Author 2, 1976", session.history(-2));
     }
 
     @Test
     public void checkoutOptionFailure(){
         Session session = new Session();
-        session.handleInput("checkout Book 3");
-        assertEquals(Constants.checkoutFailureString, session.history().get(session.history().size()-2));
+        session.handleInput(Constants.checkoutBookCommand + " Book 3");
+        assertEquals(Constants.checkoutFailureString, session.history(-2));
     }
 
     @Test
     public void checkoutOptionDoubleRemoval(){
         Session session = new Session();
-        session.handleInput("checkout Book 1");
-        session.handleInput("checkout Book 1");
-        assertEquals(Constants.checkoutFailureString, session.history().get(session.history().size()-2));
+        session.handleInput(Constants.checkoutBookCommand + " Book 1");
+        session.handleInput(Constants.checkoutBookCommand + " Book 1");
+        assertEquals(Constants.checkoutFailureString, session.history(-2));
     }
 
     @Test
     public void returnOptionSuccess(){
         Session session = new Session();
-        session.handleInput("checkout Book 1");
-        session.handleInput("return Book 1");
-        assertEquals("Book 1 " + Constants.returnSuccessString, session.history().get(session.history().size()-2));
+        session.handleInput(Constants.checkoutBookCommand + " Book 1");
+        session.handleInput(Constants.returnBookCommand + " Book 1");
+        assertEquals("Book 1 " + Constants.returnSuccessString, session.history(-2));
     }
 
     @Test
     public void returnOptionFailure(){
         Session session = new Session();
-        session.handleInput("return Book 3");
-        assertEquals(Constants.returnFailureString, session.history().get(session.history().size()-2));
+        session.handleInput(Constants.returnBookCommand + " Book 3");
+        assertEquals(Constants.returnFailureString, session.history(-2));
     }
 
 

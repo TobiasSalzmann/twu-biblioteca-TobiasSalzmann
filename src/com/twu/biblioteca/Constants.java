@@ -11,7 +11,7 @@ public class Constants {
     public static final String mainMenuString = "Main Menu: select an option";
 
 
-    public static final String listBooksCommand = "list";
+    public static final String listBooksCommand = "books";
     public static final String listBooksDescription = "Show List of Books";
 
 
@@ -24,19 +24,32 @@ public class Constants {
     public static final String quitString = "Session Closed";
 
 
-    public static final String checkoutCommand = "checkout";
-    public static final String checkoutDescription = "Checkout book";
-    public static final String checkoutParamName = "<book>";
+    public static final String checkoutBookCommand = "checkoutbook";
+    public static final String checkoutBookDescription = "Checkout book";
+    public static final String checkoutBookParamName = "<book>";
 
     public static final String checkoutSuccessString = "checked out successfully";
     public static final String checkoutFailureString = "Checkout failed";
 
 
 
-    public static final String returnCommand = "return";
-    public static final String returnDescription = "Return book";
-    public static final String returnParamName = "<book>";
+    public static final String returnBookCommand = "returnbook";
+    public static final String returnBookDescription = "Return book";
+    public static final String returnBookParamName = "<book>";
 
     public static final String returnSuccessString = "returned successfully";
     public static final String returnFailureString = "Return failed";
+
+
+    public static final String listMoviesCommand = "movies";
+    public static final String listMoviesDescription = "Show List of Movies";
+
+    public static final String checkoutMovieCommand = "checkoutmovie";
+    public static final String checkoutMovieDescription = "Checkout movie";
+    public static final String checkoutMovieParamName = "<movie>";
+
+    public static final String returnMovieCommand = "returnmovie";
+    public static final String returnMovieDescription = "Return movie";
+    public static final String returnMovieParamName = "<movie>";
+
 }

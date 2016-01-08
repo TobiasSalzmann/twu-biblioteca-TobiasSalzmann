@@ -52,4 +52,31 @@ public abstract class Message{
     static Message returnFailureMessage() {
         return simpleMessage(Constants.returnFailureString);
     }
+
+
+
+    public static Message movieListMessage(List<Movie> movies) {
+        return simpleMessage(String.join("\n", Util.map(movies, Movie::toString)));
+    }
+
+
+
+    //to delete again
+
+    static Message checkOutMovieSuccessMessage(Movie b){
+        return simpleMessage(b.getTitle() + " " + Constants.checkoutSuccessString);
+    }
+
+    static Message checkOutMovieFailureMessage() {
+        return simpleMessage(Constants.checkoutFailureString);
+    }
+
+    static Message returnMovieSuccessMessage(Movie b) {
+        return simpleMessage(b.getTitle() + " " + Constants.returnSuccessString);
+    }
+
+    static Message returnMovieFailureMessage() {
+        return simpleMessage(Constants.returnFailureString);
+    }
+
 }

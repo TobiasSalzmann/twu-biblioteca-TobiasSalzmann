@@ -17,10 +17,6 @@ public class Command {
         return paramNames.length;
     }
     
-    public String menuEntry(){
-        return (name + " " + String.join(" ",paramNames) + " - " + description);
-    }
-    
     public void apply(String[] args){
         effect.accept(args);
     }
