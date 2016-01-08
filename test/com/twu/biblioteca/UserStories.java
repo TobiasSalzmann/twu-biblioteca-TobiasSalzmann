@@ -54,7 +54,7 @@ public class UserStories {
     public void testQuitOption(){
         Session session = new Session();
         session.handleInput("quit");
-        assertEquals(Constants.quitMessage, session.lastMessage());
+        assertEquals(Constants.quitString, session.lastMessage());
     }
 
     @Test

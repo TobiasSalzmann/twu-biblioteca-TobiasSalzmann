@@ -3,7 +3,6 @@ package com.twu.biblioteca;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by tsalzman on 1/6/16.
@@ -33,7 +32,7 @@ public class Session {
             scanner = new Scanner(in);
         if(out != null)
             outStream = out;
-        history.add(Message.welcomeMessage());
+        writeMessage(Message.welcomeMessage());
         showMainMenu();
 
     }
@@ -43,7 +42,7 @@ public class Session {
     }
 
     public List<String> history() {
-        return history.stream().map(Object::toString).collect(Collectors.toList());
+        return Util.map(history, Object::toString);
     }
 
     public void listBooks() {
@@ -68,15 +67,8 @@ public class Session {
 
 
     public void handleInput(String input) {
-        int separatingIndex = input.indexOf(' ');
-        String name = input;
-        String[] args = {};
-
-        if(separatingIndex >= 0) {
-            name = input.substring(0, separatingIndex);
-            args = new String[]{input.substring(separatingIndex)};//fails for longer argument lists, but doesn't matter for now
-        }
-
+        String name = parseName(input);
+        String[] args = parseArgs(input);
         for(Command c :commands)
             if(c.getName().equals(name) && args.length == c.getNumArgs()){
                 c.apply(args);
@@ -84,6 +76,20 @@ public class Session {
             }
 
         handleInvalid();
+    }
+
+    private String[] parseArgs(String input) {
+        int index = input.trim().indexOf(' ');
+        if(index >= 0)
+            return new String[]{input.substring(index, input.length())};
+        else
+            return new String[]{};
+
+    }
+
+    private String parseName(String input) {
+        return input.split(" ")[0];
+
     }
 
     private void handleCheckout(String s) {
@@ -101,17 +107,16 @@ public class Session {
     }
 
     private void handleReturn(String s) {
-        for (Book b: library.unavailableBooks()){
-            if(s.trim().equals(b.getTitle())){
-                b.returnToLibrary();
-                writeMessage(Message.returnSuccessMessage(b));
-                showMainMenu();
-                return;
-            }
+        Optional<Book> bookOpt = Util.find(library.unavailableBooks(),b -> s.trim().equals(b.getTitle()));
+        if(bookOpt.isPresent()){
+            Book b = bookOpt.get();
+            b.returnToLibrary();
+            writeMessage(Message.returnSuccessMessage(b));
         }
-        writeMessage(Message.returnFailureMessage());
-        showMainMenu();
+        else
+            writeMessage(Message.returnFailureMessage());
 
+        showMainMenu();
     }
 
     private void closeSession(){

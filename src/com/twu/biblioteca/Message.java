@@ -25,11 +25,11 @@ public abstract class Message{
     }
 
     static Message bookListMessage(List<Book> books) {
-        return simpleMessage(String.join("\n", Util.mapList(books, Book::toString)));
+        return simpleMessage(String.join("\n", Util.map(books, Book::toString)));
     }
 
     static Message mainMenuMessage(List<Command> commands) {
-        String options = String.join("\n",Util.mapList(commands,Command::toString));
+        String options = String.join("\n",Util.map(commands,Command::toString));
         return simpleMessage(Constants.mainMenuString + "\n" + options);
     }
 
@@ -38,18 +38,18 @@ public abstract class Message{
     }
 
     static Message closeMessage() {
-        return simpleMessage(Constants.quitMessage);
+        return simpleMessage(Constants.quitString);
     }
 
-    public static Message checkOutFailureMessage() {
+    static Message checkOutFailureMessage() {
         return simpleMessage(Constants.checkoutFailureString);
     }
 
-    public static Message returnSuccessMessage(Book b) {
+    static Message returnSuccessMessage(Book b) {
         return simpleMessage(b.getTitle() + " " + Constants.returnSuccessString);
     }
 
-    public static Message returnFailureMessage() {
+    static Message returnFailureMessage() {
         return simpleMessage(Constants.returnFailureString);
     }
 }

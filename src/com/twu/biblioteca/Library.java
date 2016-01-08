@@ -2,7 +2,6 @@ package com.twu.biblioteca;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Created by tsalzman on 1/7/16.
@@ -17,11 +16,11 @@ public class Library {
         );
 
     List<Book> availableBooks(){
-        return Util.filterList(books, Book::isAvailable);
+        return Util.filter(books, Book::isAvailable);
     }
 
     List<Book> unavailableBooks(){
-        return Util.filterList(books, b -> !b.isAvailable());
+        return Util.filter(books, b -> !b.isAvailable());
     }
 
 
