@@ -48,9 +48,8 @@ public class Book implements LibraryItem{
 
     @Override
     public boolean match(String description) {
-        String simplified = description.replaceAll("\\s+"," ").trim().toLowerCase();
-        String simplified2 = String.format("%s %s %d %s",title, author, year, uid).replaceAll("\\s+"," ").trim().toLowerCase();
-        return simplified2.startsWith(simplified);
+        return Util.simplify(String.format("%s %s %d %s",title, author, year, uid)).startsWith(Util.simplify(description));
+
     }
 
 }

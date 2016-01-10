@@ -26,6 +26,8 @@ public class Util {
         return list.stream().filter(p).findAny();
     }
 
-    public static String simplify
+    public static String simplify(String toSimplify){
+        return toSimplify.replaceAll("\\s+"," ").trim().toLowerCase();
+    }
 
 }
