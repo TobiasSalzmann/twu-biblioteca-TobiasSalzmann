@@ -8,8 +8,8 @@ import java.util.List;
 public abstract class Message{
 
 
-    static Message checkOutSuccessMessage(Book b){
-     return simpleMessage(b.getTitle() + " " + Constants.checkoutSuccessString);
+    static Message checkOutSuccessMessage(LibraryItem item){
+     return simpleMessage(item.getTitle() + " " + Constants.checkoutSuccessString);
     }
 
     static Message welcomeMessage(){
@@ -45,8 +45,8 @@ public abstract class Message{
         return simpleMessage(Constants.checkoutFailureString);
     }
 
-    static Message returnSuccessMessage(Book b) {
-        return simpleMessage(b.getTitle() + " " + Constants.returnSuccessString);
+    static Message returnSuccessMessage(LibraryItem item) {
+        return simpleMessage(item.getTitle() + " " + Constants.returnSuccessString);
     }
 
     static Message returnFailureMessage() {
@@ -59,6 +59,13 @@ public abstract class Message{
         return simpleMessage(String.join("\n", Util.map(movies, Movie::toString)));
     }
 
+    static Message noMatchesMessage(String query){
+        return simpleMessage(Constants.noMatchesString + " " + query);
+    }
+
+    static Message notUniqueMessage(String query) {
+        return simpleMessage(Constants.notUniqueString + " " + query);
+    }
 
 
     //to delete again
@@ -78,5 +85,6 @@ public abstract class Message{
     static Message returnMovieFailureMessage() {
         return simpleMessage(Constants.returnFailureString);
     }
+
 
 }

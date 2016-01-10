@@ -12,8 +12,8 @@ import static org.junit.Assert.*;
  */
 public class LibraryItemTest{
 
-    private final Book book = new Book("Title1","Author",0,"someUniqueIdentifier");
-    private final Movie movie = new Movie("Title2",0,"Director",7,"someOtherUniqueIdentifier");
+    private final LibraryItem book = new Book("Title1","Author",0,"someUniqueIdentifier");
+    private final LibraryItem movie = new Movie("Title2",0,"Director",7,"someOtherUniqueIdentifier");
 
     @Test
     public void bookTypeTest(){
@@ -75,8 +75,17 @@ public class LibraryItemTest{
         assertFalse(item.match("movie 1  \n hello    author 1"));
     }
 
+    @Test
+    public void TitleTest(){
+        assertThat(book.getTitle(), is("Title1"));
+        assertThat(movie.getTitle(), is("Title2"));
+    }
 
-
+    @Test
+    public void EqualityTest(){
+        assertThat(new Book("Title1","Author",0,"someUniqueIdentifier"), is(book));
+        assertThat(new Movie("Title2",0,"Director",7,"someOtherUniqueIdentifier"), is(movie));
+    }
 
 
 

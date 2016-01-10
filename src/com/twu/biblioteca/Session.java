@@ -11,15 +11,25 @@ public class Session {
 
     private PrintStream outStream = null;
     private Scanner scanner = null;
+
+    private Library library = new Library();
+    private Library books = Library.createBookTestLibrary();
+    private Library movies = Library.createMovieTestLibrary();
+
+
     private List<Command> commands = Arrays.asList(
             new Command(args -> listBooks(), Constants.listBooksCommand, Constants.listBooksDescription),
-            new Command(args -> handleCheckout(args[0]), Constants.checkoutBookCommand,Constants.checkoutBookDescription, Constants.checkoutBookParamName),
-            new Command(args -> handleReturn(args[0]), Constants.returnBookCommand, Constants.returnBookDescription, Constants.returnBookParamName),
+            new Command(args -> handleCheckoutBook(args[0]), Constants.checkoutBookCommand,Constants.checkoutBookDescription, Constants.checkoutBookParamName),
+            new Command(args -> handleReturnBook(args[0]), Constants.returnBookCommand, Constants.returnBookDescription, Constants.returnBookParamName),
             new Command(args -> listMovies(), Constants.listMoviesCommand, Constants.listMoviesDescription),
             new Command(args -> handleCheckoutMovie(args[0]), Constants.checkoutMovieCommand,Constants.checkoutMovieDescription, Constants.checkoutMovieParamName),
             new Command(args -> handleReturnMovie(args[0]), Constants.returnMovieCommand, Constants.returnMovieDescription, Constants.returnMovieParamName),
             new Command(args -> closeSession(), Constants.closeCommand, Constants.closeDescription)
     );
+
+    public static Session createTestSession() {
+        return new Session(null, null);
+    }
 
     private void listMovies() {
         List<Movie> availableMovies = library.availableMovies();
@@ -27,9 +37,7 @@ public class Session {
         showMainMenu();
     }
 
-    private Library library = new Library();
-
-    public Session(){
+    private Session(){
         this(null,null);
 
     }
@@ -101,7 +109,7 @@ public class Session {
 
     }
 
-    private void handleCheckout(String s) {
+    private void handleCheckoutBook(String s) {
         for (Book b: library.availableBooks()){
             if(s.trim().equals(b.getTitle())){
                 b.checkOut();
@@ -115,7 +123,7 @@ public class Session {
 
     }
 
-    private void handleReturn(String s) {
+    private void handleReturnBook(String s) {
         Optional<Book> bookOpt = Util.find(library.unavailableBooks(),b -> s.trim().equals(b.getTitle()));
         if(bookOpt.isPresent()){
             Book b = bookOpt.get();

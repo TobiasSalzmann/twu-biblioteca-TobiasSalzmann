@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -20,7 +22,12 @@ public class UtilTest {
 
     @Test
     public void filterTest(){
-        assertEquals(Arrays.asList(1,3),Util.filter(Arrays.asList(1,2,3),n -> n % 2 != 0));
+        assertEquals((Arrays.asList(1,3)),Util.filter(Arrays.asList(1,2,3), n -> n % 2 != 0));
+    }
+
+    @Test
+    public void filterTestSet(){
+        assertEquals(new HashSet<>((Arrays.asList(1,3))),new HashSet<>(Util.filter(Arrays.asList(1,2,3), n -> n % 2 != 0)));
     }
 
     @Test

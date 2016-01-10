@@ -51,4 +51,27 @@ public class Book implements LibraryItem{
         return Util.simplify(String.format("%s %s %d %s",title, author, year, uid)).startsWith(Util.simplify(description));
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+
+        Book book = (Book) o;
+
+        if (year != book.year) return false;
+        if (!title.equals(book.title)) return false;
+        if (!author.equals(book.author)) return false;
+        return uid.equals(book.uid);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + year;
+        result = 31 * result + uid.hashCode();
+        return result;
+    }
 }

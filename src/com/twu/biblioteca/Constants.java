@@ -1,5 +1,8 @@
 package com.twu.biblioteca;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by tsalzman on 1/6/16.
  */
@@ -52,4 +55,16 @@ public class Constants {
     public static final String returnMovieDescription = "Return movie";
     public static final String returnMovieParamName = "<movie>";
 
+    public static final List<LibraryItem> books = Arrays.asList(
+            new Book("Book 1","Author 1", 1337, "0"),
+            new Book("Book 2", "Author 2", 1976, "1")
+    );
+
+    public static final List<LibraryItem> movies = Arrays.asList(
+            new Movie("Movie 1", 1984, "Director 1", "2"),
+            new Movie("Movie 2", 1985, "Director 2", 7,"3")
+    );
+
+    public static final String noMatchesString = "No matches for:";
+    public static final String notUniqueString = "More than one match for:";
 }

@@ -7,4 +7,5 @@ public interface LibraryItem{
 
     String getUID();
     boolean match(String description);
+    String getTitle();
 }

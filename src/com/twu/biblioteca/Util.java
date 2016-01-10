@@ -1,5 +1,6 @@
 package com.twu.biblioteca;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -14,12 +15,12 @@ public class Util {
 
 
 
-    public static <T> List<T> filter(List<T> list, Predicate<T> p){
-        return list.stream().filter(p).collect(Collectors.toList());
+    public static <T> List<T> filter(Collection<T> coll, Predicate<T> p){
+        return coll.stream().filter(p).collect(Collectors.toList());
     }
 
-    public static <T1,T2> List<T2> map(List<T1> list, Function<T1,T2> f){
-        return list.stream().map(f).collect(Collectors.toList());
+    public static <T1,T2> List<T2> map(Collection<T1> coll, Function<T1,T2> f){
+        return coll.stream().map(f).collect(Collectors.toList());
     }
 
     public static <T> Optional<T> find(List<T> list, Predicate<T> p){

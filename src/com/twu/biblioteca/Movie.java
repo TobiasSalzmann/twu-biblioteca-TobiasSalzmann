@@ -58,4 +58,30 @@ public class Movie implements LibraryItem{
     public boolean match(String description) {
         return Util.simplify(String.format("%s %d %s %s %s",title, year, director, rating, uid)).startsWith(Util.simplify(description));
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Movie)) return false;
+
+        Movie movie = (Movie) o;
+
+        if (year != movie.year) return false;
+        if (!title.equals(movie.title)) return false;
+        if (!director.equals(movie.director)) return false;
+        if (!rating.equals(movie.rating)) return false;
+        return uid.equals(movie.uid);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + director.hashCode();
+        result = 31 * result + year;
+        result = 31 * result + rating.hashCode();
+        result = 31 * result + uid.hashCode();
+        return result;
+    }
 }
