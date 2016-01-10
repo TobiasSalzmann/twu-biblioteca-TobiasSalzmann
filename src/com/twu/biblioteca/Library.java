@@ -13,7 +13,7 @@ public class Library {
     }
 
     public static Library createMovieTestLibrary(){
-        return new Library(Constants.books);
+        return new Library(Constants.movies);
     }
 
 
@@ -49,29 +49,11 @@ public class Library {
         unavailableItems = new HashSet<>();
     }
 
-    List<Book> availableBooks(){
-        return Util.filter(books, Book::isAvailable);
-    }
-
-    List<Book> unavailableBooks(){
-        return Util.filter(books, b -> !b.isAvailable());
-    }
-
-
-    List<Movie> availableMovies() {
-        return Util.filter(movies, Movie::isAvailable);
-    }
-
-    List<Movie> unavailableMovies(){
-        return Util.filter(movies, b -> !b.isAvailable());
-    }
-
-
     List<LibraryItem> availableItems() {
         return new LinkedList<>(availableItems);
     }
 
-    public synchronized void checkOutItem(LibraryItem item) {
+    public void checkOutItem(LibraryItem item) {
         availableItems.remove(item);
         unavailableItems.add(item);
     }
@@ -80,24 +62,56 @@ public class Library {
         return new LinkedList<>(unavailableItems);
     }
 
-    public synchronized void returnItem(LibraryItem item) {
+    public void returnItem(LibraryItem item) {
         unavailableItems.remove(item);
         availableItems.add(item);
     }
 
     public Message tryCheckOut(String description) {
-        if(itemsByUID.containsKey(description) && availableItems.contains(itemsByUID.get(description)))
+        if(itemsByUID.containsKey(description) && availableItems.contains(itemsByUID.get(description))){
+            checkOutItem(itemsByUID.get(description));
             return Message.checkOutSuccessMessage(itemsByUID.get(description));
-        else {
-            List<LibraryItem> matches = Util.filter(availableItems, item -> item.match(description));
-            if(matches.size() == 1)
-                return Message.checkOutSuccessMessage(matches.get(0));
-            else if (matches.size() > 1)
-                return Message.notUniqueMessage(description);
-            else
-                return Message.noMatchesMessage(description);
         }
 
+        return tryCheckOutByDescription(description);
+    }
 
+    private Message tryCheckOutByDescription(String description) {
+        List<LibraryItem> matches = Util.filter(availableItems, item -> item.match(description));
+        if(matches.size() == 1){
+            checkOutItem(matches.get(0));
+            return Message.checkOutSuccessMessage(matches.get(0));
+        }
+        else return reportFailure(description, matches);
+    }
+
+    private Message reportFailure(String description, List<LibraryItem> matches) {
+        if (matches.size() > 1)
+            return Message.notUniqueMessage(description);
+        else
+            return Message.noMatchesMessage(description);
+    }
+
+
+    public Message tryReturn(String description) {
+        if(itemsByUID.containsKey(description) && unavailableItems.contains(itemsByUID.get(description))){
+            checkOutItem(itemsByUID.get(description));
+            return Message.returnSuccessMessage(itemsByUID.get(description));
+        }
+
+        return tryReturnByDescription(description);
+    }
+
+    private Message tryReturnByDescription(String description) {
+        List<LibraryItem> matches = Util.filter(unavailableItems, item -> item.match(description));
+        if(matches.size() == 1){
+            checkOutItem(matches.get(0));
+            return Message.returnSuccessMessage(matches.get(0));
+        }
+        else return reportFailure(description, matches);
+    }
+
+    public Message listAvailableItems() {
+        return Message.itemListMessage(new LinkedList<>(availableItems));
     }
 }

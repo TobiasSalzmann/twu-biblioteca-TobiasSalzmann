@@ -12,18 +12,17 @@ public class Session {
     private PrintStream outStream = null;
     private Scanner scanner = null;
 
-    private Library library = new Library();
     private Library books = Library.createBookTestLibrary();
     private Library movies = Library.createMovieTestLibrary();
 
 
     private List<Command> commands = Arrays.asList(
-            new Command(args -> listBooks(), Constants.listBooksCommand, Constants.listBooksDescription),
-            new Command(args -> handleCheckoutBook(args[0]), Constants.checkoutBookCommand,Constants.checkoutBookDescription, Constants.checkoutBookParamName),
-            new Command(args -> handleReturnBook(args[0]), Constants.returnBookCommand, Constants.returnBookDescription, Constants.returnBookParamName),
-            new Command(args -> listMovies(), Constants.listMoviesCommand, Constants.listMoviesDescription),
-            new Command(args -> handleCheckoutMovie(args[0]), Constants.checkoutMovieCommand,Constants.checkoutMovieDescription, Constants.checkoutMovieParamName),
-            new Command(args -> handleReturnMovie(args[0]), Constants.returnMovieCommand, Constants.returnMovieDescription, Constants.returnMovieParamName),
+            new Command(args -> listItems(books), Constants.listBooksCommand, Constants.listBooksDescription),
+            new Command(args -> handleCheckout(args[0], books), Constants.checkoutBookCommand,Constants.checkoutBookDescription, Constants.checkoutBookParamName),
+            new Command(args -> handleReturn(args[0], books), Constants.returnBookCommand, Constants.returnBookDescription, Constants.returnBookParamName),
+            new Command(args -> listItems(movies), Constants.listMoviesCommand, Constants.listMoviesDescription),
+            new Command(args -> handleCheckout(args[0], movies), Constants.checkoutMovieCommand,Constants.checkoutMovieDescription, Constants.checkoutMovieParamName),
+            new Command(args -> handleReturn(args[0], movies), Constants.returnMovieCommand, Constants.returnMovieDescription, Constants.returnMovieParamName),
             new Command(args -> closeSession(), Constants.closeCommand, Constants.closeDescription)
     );
 
@@ -31,16 +30,6 @@ public class Session {
         return new Session(null, null);
     }
 
-    private void listMovies() {
-        List<Movie> availableMovies = library.availableMovies();
-        writeMessage(Message.movieListMessage(availableMovies));
-        showMainMenu();
-    }
-
-    private Session(){
-        this(null,null);
-
-    }
 
     private final LinkedList<Message> history = new LinkedList<>();
 
@@ -62,9 +51,8 @@ public class Session {
         return Util.map(history, Object::toString);
     }
 
-    public void listBooks() {
-        List<Book> availableBooks = library.availableBooks();
-        writeMessage(Message.bookListMessage(availableBooks));
+    public void listItems(Library library) {
+        writeMessage(library.listAvailableItems());
         showMainMenu();
     }
 
@@ -109,65 +97,17 @@ public class Session {
 
     }
 
-    private void handleCheckoutBook(String s) {
-        for (Book b: library.availableBooks()){
-            if(s.trim().equals(b.getTitle())){
-                b.checkOut();
-                writeMessage(Message.checkOutSuccessMessage(b));
-                showMainMenu();
-                return;
-            }
-        }
-        writeMessage(Message.checkOutFailureMessage());
-        showMainMenu();
-
-    }
-
-    private void handleReturnBook(String s) {
-        Optional<Book> bookOpt = Util.find(library.unavailableBooks(),b -> s.trim().equals(b.getTitle()));
-        if(bookOpt.isPresent()){
-            Book b = bookOpt.get();
-            b.returnToLibrary();
-            writeMessage(Message.returnSuccessMessage(b));
-        }
-        else
-            writeMessage(Message.returnFailureMessage());
-
+    private void handleCheckout(String description, Library library){
+        Message message = library.tryCheckOut(description.trim());
+        writeMessage(message);
         showMainMenu();
     }
 
-
-
-    private void handleCheckoutMovie(String s) {
-        for (Movie b: library.availableMovies()){
-            if(s.trim().equals(b.getTitle())){
-                b.checkOut();
-                writeMessage(Message.checkOutMovieSuccessMessage(b));
-                showMainMenu();
-                return;
-            }
-        }
-        writeMessage(Message.checkOutMovieFailureMessage());
-        showMainMenu();
-
-    }
-
-    private void handleReturnMovie(String s) {
-        Optional<Movie> bookOpt = Util.find(library.unavailableMovies(),b -> s.trim().equals(b.getTitle()));
-        if(bookOpt.isPresent()){
-            Movie b = bookOpt.get();
-            b.returnToLibrary();
-            writeMessage(Message.returnMovieSuccessMessage(b));
-        }
-        else
-            writeMessage(Message.returnMovieFailureMessage());
-
+    private void handleReturn(String description, Library library){
+        Message message = library.tryReturn(description.trim());
+        writeMessage(message);
         showMainMenu();
     }
-
-
-
-
 
 
     private void closeSession(){

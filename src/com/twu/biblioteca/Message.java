@@ -24,8 +24,8 @@ public abstract class Message{
         };
     }
 
-    static Message bookListMessage(List<Book> books) {
-        return simpleMessage(String.join("\n", Util.map(books, Book::toString)));
+    static Message itemListMessage(List<LibraryItem> items) {
+        return simpleMessage(String.join("\n", Util.map(items, LibraryItem::toString)));
     }
 
     static Message mainMenuMessage(List<Command> commands) {
@@ -41,22 +41,8 @@ public abstract class Message{
         return simpleMessage(Constants.quitString);
     }
 
-    static Message checkOutFailureMessage() {
-        return simpleMessage(Constants.checkoutFailureString);
-    }
-
     static Message returnSuccessMessage(LibraryItem item) {
         return simpleMessage(item.getTitle() + " " + Constants.returnSuccessString);
-    }
-
-    static Message returnFailureMessage() {
-        return simpleMessage(Constants.returnFailureString);
-    }
-
-
-
-    public static Message movieListMessage(List<Movie> movies) {
-        return simpleMessage(String.join("\n", Util.map(movies, Movie::toString)));
     }
 
     static Message noMatchesMessage(String query){
@@ -67,24 +53,6 @@ public abstract class Message{
         return simpleMessage(Constants.notUniqueString + " " + query);
     }
 
-
-    //to delete again
-
-    static Message checkOutMovieSuccessMessage(Movie b){
-        return simpleMessage(b.getTitle() + " " + Constants.checkoutSuccessString);
-    }
-
-    static Message checkOutMovieFailureMessage() {
-        return simpleMessage(Constants.checkoutFailureString);
-    }
-
-    static Message returnMovieSuccessMessage(Movie b) {
-        return simpleMessage(b.getTitle() + " " + Constants.returnSuccessString);
-    }
-
-    static Message returnMovieFailureMessage() {
-        return simpleMessage(Constants.returnFailureString);
-    }
 
 
 }

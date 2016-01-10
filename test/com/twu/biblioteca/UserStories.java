@@ -3,7 +3,8 @@ package com.twu.biblioteca;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Created by tsalzman on 1/5/16.
@@ -20,8 +21,9 @@ public class UserStories {
     @Test
     public void testListBooksDetails(){
         Session session = Session.createTestSession();
-        session.listBooks();
-        assertEquals("Book 1, Author 1, 1337\nBook 2, Author 2, 1976",session.history(-2));
+        session.listItems(Library.createBookTestLibrary());
+        assertThat(session.history(-2).contains("Book 1, Author 1, 1337, 0"),is(true));
+        assertThat(session.history(-2).contains("Book 2, Author 2, 1976, 1"),is(true));
     }
 
     @Test
@@ -39,7 +41,8 @@ public class UserStories {
     public void testValidOptionListBooks(){
         Session session = Session.createTestSession();
         session.handleInput(Constants.listBooksCommand);
-        assertEquals("Book 1, Author 1, 1337\nBook 2, Author 2, 1976",session.history(-2));
+        assertThat(session.history(-2).contains("Book 1, Author 1, 1337, 0"),is(true));
+        assertThat(session.history(-2).contains("Book 2, Author 2, 1976, 1"),is(true));
     }
 
     @Test
@@ -69,14 +72,14 @@ public class UserStories {
         Session session = Session.createTestSession();
         session.handleInput(Constants.checkoutBookCommand + " Book 1");
         session.handleInput(Constants.listBooksCommand);
-        assertEquals("Book 2, Author 2, 1976", session.history(-2));
+        assertEquals("Book 2, Author 2, 1976, 1", session.history(-2));
     }
 
     @Test
     public void checkoutOptionFailure(){
         Session session = Session.createTestSession();
         session.handleInput(Constants.checkoutBookCommand + " Book 3");
-        assertEquals(Constants.checkoutFailureString, session.history(-2));
+        assertEquals(Constants.noMatchesString + " Book 3", session.history(-2));
     }
 
     @Test
@@ -84,7 +87,7 @@ public class UserStories {
         Session session = Session.createTestSession();
         session.handleInput(Constants.checkoutBookCommand + " Book 1");
         session.handleInput(Constants.checkoutBookCommand + " Book 1");
-        assertEquals(Constants.checkoutFailureString, session.history(-2));
+        assertEquals(Constants.noMatchesString + " Book 1", session.history(-2));
     }
 
     @Test
@@ -99,7 +102,7 @@ public class UserStories {
     public void returnOptionFailure(){
         Session session = Session.createTestSession();
         session.handleInput(Constants.returnBookCommand + " Book 3");
-        assertEquals(Constants.returnFailureString, session.history(-2));
+        assertEquals(Constants.noMatchesString + " Book 3", session.history(-2));
     }
 
 

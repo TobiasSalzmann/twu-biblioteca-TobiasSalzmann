@@ -70,7 +70,7 @@ public class LibraryTest {
     @Test
     public void libraryCheckoutByUIDTestFailure2(){
         Library lib = Library.createBookTestLibrary();
-        lib.checkOutItem(books.get(0));
+        lib.tryCheckOut("0");
         Message m = lib.tryCheckOut("0");
         assertThat(m.toString(), is(Constants.noMatchesString + " 0"));
     }
@@ -99,10 +99,70 @@ public class LibraryTest {
     @Test
     public void libraryCheckoutByDescriptionTestFailure3(){
         Library lib = Library.createBookTestLibrary();
-        lib.checkOutItem(books.get(0));
+        lib.tryCheckOut("0");
         Message m = lib.tryCheckOut("Book 1");
         assertThat(m.toString(), is(Constants.noMatchesString + " Book 1"));
     }
+
+    @Test
+    public void libraryReturnByUIDTestSuccess(){
+        Library lib = Library.createBookTestLibrary();
+        lib.tryCheckOut("0");
+        Message m = lib.tryReturn("0");
+        assertThat(m.toString(), is("Book 1 " + Constants.returnSuccessString));
+    }
+
+    @Test
+    public void libraryReturnByUIDTestFailure1(){
+        Library lib = Library.createBookTestLibrary();
+        Message m = lib.tryReturn("67");
+        assertThat(m.toString(), is(Constants.noMatchesString + " 67"));
+    }
+
+    @Test
+    public void libraryReturnByUIDTestFailure2(){
+        Library lib = Library.createBookTestLibrary();
+        Message m = lib.tryReturn("0");
+        assertThat(m.toString(), is(Constants.noMatchesString + " 0"));
+    }
+
+    @Test
+    public void libraryReturnByDescriptionTestSuccess(){
+        Library lib = Library.createBookTestLibrary();
+        lib.tryCheckOut("Book 1");
+        Message m = lib.tryReturn("Book 1");
+        assertThat(m.toString(), is("Book 1 " + Constants.returnSuccessString));
+    }
+
+    @Test
+    public void libraryReturnByDescriptionTestFailure1(){
+        Library lib = Library.createBookTestLibrary();
+        Message m = lib.tryReturn("Book 4");
+        assertThat(m.toString(), is(Constants.noMatchesString + " Book 4"));
+    }
+
+    @Test
+    public void libraryReturnByDescriptionTestFailure2(){
+        Library lib = Library.createBookTestLibrary();
+        lib.tryCheckOut("Book 1");
+        lib.tryCheckOut("Book 2");
+        Message m = lib.tryReturn("Book");
+        assertThat(m.toString(), is(Constants.notUniqueString + " Book"));
+    }
+
+
+
+
+
+    @Test
+    public void listAvailableTest(){
+        Library lib = Library.createBookTestLibrary();
+        Message m = lib.listAvailableItems();
+        System.out.println(m);
+        assertThat(m.toString().contains("Book 1, Author 1, 1337, 0"), is(true));
+        assertThat(m.toString().contains("Book 2, Author 2, 1976, 1"), is(true));
+    }
+
 
 
 

@@ -10,16 +10,6 @@ public class Movie implements LibraryItem{
     private final String rating;
     private final String uid;
 
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void checkOut() {
-        this.available = false;
-    }
-
-    private boolean available = true;
-
     private Movie(String title, int year, String director, String rating, String uid) {
         this.title = title;
         this.director = director;
@@ -42,11 +32,7 @@ public class Movie implements LibraryItem{
 
     @Override
     public String toString() {
-        return String.format("%s, %d, %s, %s",title, year, director, rating);
-    }
-
-    public void returnToLibrary() {
-        this.available = true;
+        return String.format("%s, %d, %s, %s, %s",title, year, director, rating, uid);
     }
 
     @Override

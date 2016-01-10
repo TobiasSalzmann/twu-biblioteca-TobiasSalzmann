@@ -2,6 +2,8 @@ package com.twu.biblioteca;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Created by tsalzman on 1/8/16.
@@ -18,7 +20,8 @@ public class UserStories2 {
     public void listMovies(){
         Session session = Session.createTestSession();
         session.handleInput(Constants.listMoviesCommand);
-        assertEquals("Movie 1, 1984, Director 1, unrated\nMovie 2, 1985, Director 2, 7",session.history(-2));
+        assertThat(session.history(-2).contains("Movie 1, 1984, Director 1, unrated, 2"),is(true));
+        assertThat(session.history(-2).contains("Movie 2, 1985, Director 2, 7, 3"),is(true));
     }
 
     @Test
@@ -33,14 +36,14 @@ public class UserStories2 {
         Session session = Session.createTestSession();
         session.handleInput(Constants.checkoutMovieCommand + " Movie 1");
         session.handleInput(Constants.listMoviesCommand);
-        assertEquals("Movie 2, 1985, Director 2, 7", session.history(-2));
+        assertEquals("Movie 2, 1985, Director 2, 7, 3", session.history(-2));
     }
 
     @Test
     public void checkoutMovieFailure(){
         Session session = Session.createTestSession();
         session.handleInput(Constants.checkoutMovieCommand + " Movie 3");
-        assertEquals(Constants.checkoutFailureString, session.history(-2));
+        assertEquals(Constants.noMatchesString + " Movie 3", session.history(-2));
     }
 
     @Test
@@ -48,7 +51,7 @@ public class UserStories2 {
         Session session = Session.createTestSession();
         session.handleInput(Constants.checkoutMovieCommand + " Movie 1");
         session.handleInput(Constants.checkoutMovieCommand + " Movie 1");
-        assertEquals(Constants.checkoutFailureString, session.history(-2));
+        assertEquals(Constants.noMatchesString + " Movie 1", session.history(-2));
     }
 
     @Test
@@ -63,6 +66,6 @@ public class UserStories2 {
     public void returnMovieFailure(){
         Session session = Session.createTestSession();
         session.handleInput(Constants.returnMovieCommand + " Movie 3");
-        assertEquals(Constants.returnFailureString, session.history(-2));
+        assertEquals(Constants.noMatchesString + " Movie 3", session.history(-2));
     }
 }

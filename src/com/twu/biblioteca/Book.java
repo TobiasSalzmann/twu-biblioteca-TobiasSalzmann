@@ -11,16 +11,6 @@ public class Book implements LibraryItem{
     private final int year;
     private final String uid;
 
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void checkOut() {
-        this.available = false;
-    }
-
-    private boolean available = true;
-
     public Book(String title, String author, int year, String uid) {
         this.title = title;
         this.author = author;
@@ -34,11 +24,7 @@ public class Book implements LibraryItem{
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %d",title, author, year);
-    }
-
-    public void returnToLibrary() {
-        this.available = true;
+        return String.format("%s, %s, %d, %s",title, author, year, uid);
     }
 
     @Override
