@@ -3,11 +3,12 @@ package com.twu.biblioteca;
 /**
  * Created by tsalzman on 1/8/16.
  */
-public class Movie {
+public class Movie implements LibraryItem{
     private final String title;
     private final String director;
     private final int year;
     private final String rating;
+    private final String uid;
 
     public boolean isAvailable() {
         return available;
@@ -19,19 +20,20 @@ public class Movie {
 
     private boolean available = true;
 
-    private Movie(String title, int year, String director, String rating) {
+    private Movie(String title, int year, String director, String rating, String uid) {
         this.title = title;
         this.director = director;
         this.year = year;
         this.rating = rating;
+        this.uid = uid;
     }
 
-    public Movie(String title, int year, String director) {
-        this(title, year, director, "unrated");
+    public Movie(String title, int year, String director, String uid) {
+        this(title, year, director, "unrated", uid);
     }
 
-    public Movie(String title, int year, String director, int rating) {
-        this(title, year, director, "" + rating);
+    public Movie(String title, int year, String director, int rating, String uid) {
+        this(title, year, director, "" + rating, uid);
     }
 
     public String getTitle() {
@@ -45,5 +47,15 @@ public class Movie {
 
     public void returnToLibrary() {
         this.available = true;
+    }
+
+    @Override
+    public String getUID() {
+        return uid;
+    }
+
+    @Override
+    public boolean match(String description) {
+        return false;
     }
 }

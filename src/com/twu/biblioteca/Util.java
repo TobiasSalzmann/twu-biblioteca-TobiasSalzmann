@@ -10,6 +10,10 @@ import java.util.stream.Collectors;
  * Created by tsalzman on 1/7/16.
  */
 public class Util {
+
+
+
+
     public static <T> List<T> filter(List<T> list, Predicate<T> p){
         return list.stream().filter(p).collect(Collectors.toList());
     }
@@ -21,5 +25,7 @@ public class Util {
     public static <T> Optional<T> find(List<T> list, Predicate<T> p){
         return list.stream().filter(p).findAny();
     }
+
+    public static String simplify
 
 }

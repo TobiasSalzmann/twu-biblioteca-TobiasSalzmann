@@ -1,12 +1,15 @@
 package com.twu.biblioteca;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by tsalzman on 1/7/16.
  */
-public class Book{
+public class Book implements LibraryItem{
     private final String title;
     private final String author;
     private final int year;
+    private final String uid;
 
     public boolean isAvailable() {
         return available;
@@ -18,10 +21,11 @@ public class Book{
 
     private boolean available = true;
 
-    public Book(String title, String author, int year) {
+    public Book(String title, String author, int year, String uid) {
         this.title = title;
         this.author = author;
         this.year = year;
+        this.uid = uid;
     }
 
     public String getTitle() {
@@ -36,4 +40,17 @@ public class Book{
     public void returnToLibrary() {
         this.available = true;
     }
+
+    @Override
+    public String getUID() {
+        return uid;
+    }
+
+    @Override
+    public boolean match(String description) {
+        String simplified = description.replaceAll("\\s+"," ").trim().toLowerCase();
+        String simplified2 = String.format("%s %s %d %s",title, author, year, uid).replaceAll("\\s+"," ").trim().toLowerCase();
+        return simplified2.startsWith(simplified);
+    }
+
 }
