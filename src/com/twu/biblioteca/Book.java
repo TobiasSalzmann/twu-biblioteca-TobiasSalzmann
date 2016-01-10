@@ -49,7 +49,6 @@ public class Book implements LibraryItem{
     @Override
     public boolean match(String description) {
         return Util.simplify(String.format("%s %s %d %s",title, author, year, uid)).startsWith(Util.simplify(description));
-
     }
 
 }

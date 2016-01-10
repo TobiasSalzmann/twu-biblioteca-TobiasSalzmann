@@ -53,6 +53,29 @@ public class LibraryItemTest{
         assertFalse(item.match("book 1  \n hello    author 1"));
     }
 
+    @Test
+    public void matchMovieTestTrue(){
+        LibraryItem item = new Movie("Movie 1", 1900, "Director 1", "7");
+        assertTrue(item.match(""));
+        assertTrue(item.match("M"));
+        assertTrue(item.match("Movie 1"));
+        assertTrue(item.match("movie 1"));
+        assertTrue(item.match("MOVIE 1"));
+        assertTrue(item.match("movie 1 1900 director 1 unrated 7"));
+        assertTrue(item.match("movie 1  \n     190"));
+    }
+
+    @Test
+    public void matchMovieTestFalse(){
+        LibraryItem item = new Movie("Movie 1", 1900, "Director 1", "7");
+        assertFalse(item.match("C"));
+        assertFalse(item.match("Movie 2"));
+        assertFalse(item.match("moovie 1"));
+        assertFalse(item.match("movie 1 1900 director 1 unrated 8"));
+        assertFalse(item.match("movie 1  \n hello    author 1"));
+    }
+
+
 
 
 

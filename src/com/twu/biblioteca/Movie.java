@@ -56,6 +56,6 @@ public class Movie implements LibraryItem{
 
     @Override
     public boolean match(String description) {
-        return false;
+        return Util.simplify(String.format("%s %d %s %s %s",title, year, director, rating, uid)).startsWith(Util.simplify(description));
     }
 }
