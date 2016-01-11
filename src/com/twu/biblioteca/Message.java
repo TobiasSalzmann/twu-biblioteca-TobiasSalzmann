@@ -54,5 +54,7 @@ public abstract class Message{
     }
 
 
-
+    static Message addPrefix(Message message, String headerString) {
+        return simpleMessage(headerString + message.toString());
+    }
 }

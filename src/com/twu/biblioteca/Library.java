@@ -1,7 +1,6 @@
 package com.twu.biblioteca;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * Created by tsalzman on 1/7/16.
@@ -15,6 +14,7 @@ public class Library {
     public static Library createMovieTestLibrary(){
         return new Library(Constants.movies);
     }
+
 
 
 
@@ -37,10 +37,6 @@ public class Library {
             new Movie("Movie 2", 1985, "Director 2", 7,"3")
     );
 
-
-    public Library(){
-        this(new LinkedList<>());
-    }
 
     public Library(Collection<LibraryItem> items) {
         itemsByUID = new HashMap<>();

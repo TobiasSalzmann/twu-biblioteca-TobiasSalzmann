@@ -24,7 +24,7 @@ public class Book implements LibraryItem{
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %d, %s",title, author, year, uid);
+        return String.format(Constants.bookFormatString,title, author, year, uid);
     }
 
     @Override

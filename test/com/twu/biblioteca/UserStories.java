@@ -21,9 +21,9 @@ public class UserStories {
     @Test
     public void testListBooksDetails(){
         Session session = Session.createTestSession();
-        session.listItems(Library.createBookTestLibrary());
-        assertThat(session.history(-2).contains("Book 1, Author 1, 1337, 0"),is(true));
-        assertThat(session.history(-2).contains("Book 2, Author 2, 1976, 1"),is(true));
+        session.listItems(Library.createBookTestLibrary(),"");
+        assertThat(session.history(-2).contains(String.format(Constants.bookFormatString, "Book 1", "Author 1", 1337, "0")),is(true));
+        assertThat(session.history(-2).contains(String.format(Constants.bookFormatString, "Book 2", "Author 2", 1976, "1")),is(true));
     }
 
     @Test
@@ -41,8 +41,8 @@ public class UserStories {
     public void testValidOptionListBooks(){
         Session session = Session.createTestSession();
         session.handleInput(Constants.listBooksCommand);
-        assertThat(session.history(-2).contains("Book 1, Author 1, 1337, 0"),is(true));
-        assertThat(session.history(-2).contains("Book 2, Author 2, 1976, 1"),is(true));
+        assertThat(session.history(-2).contains("Book 1"),is(true));
+        assertThat(session.history(-2).contains("Book 2"),is(true));
     }
 
     @Test
@@ -72,7 +72,9 @@ public class UserStories {
         Session session = Session.createTestSession();
         session.handleInput(Constants.checkoutBookCommand + " Book 1");
         session.handleInput(Constants.listBooksCommand);
-        assertEquals("Book 2, Author 2, 1976, 1", session.history(-2));
+        String[] lines = session.history(-2).split("\n");
+        assertEquals(String.format(Constants.bookFormatString, "Book 2", "Author 2", 1976, "1"), lines[1]);
+        assertEquals(2, lines.length);
     }
 
     @Test

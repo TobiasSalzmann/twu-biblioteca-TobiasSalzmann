@@ -17,10 +17,10 @@ public class Session {
 
 
     private List<Command> commands = Arrays.asList(
-            new Command(args -> listItems(books), Constants.listBooksCommand, Constants.listBooksDescription),
+            new Command(args -> listItems(books, Constants.bookHeaderString), Constants.listBooksCommand, Constants.listBooksDescription),
             new Command(args -> handleCheckout(args[0], books), Constants.checkoutBookCommand,Constants.checkoutBookDescription, Constants.checkoutBookParamName),
             new Command(args -> handleReturn(args[0], books), Constants.returnBookCommand, Constants.returnBookDescription, Constants.returnBookParamName),
-            new Command(args -> listItems(movies), Constants.listMoviesCommand, Constants.listMoviesDescription),
+            new Command(args -> listItems(movies, Constants.movieHeaderString), Constants.listMoviesCommand, Constants.listMoviesDescription),
             new Command(args -> handleCheckout(args[0], movies), Constants.checkoutMovieCommand,Constants.checkoutMovieDescription, Constants.checkoutMovieParamName),
             new Command(args -> handleReturn(args[0], movies), Constants.returnMovieCommand, Constants.returnMovieDescription, Constants.returnMovieParamName),
             new Command(args -> closeSession(), Constants.closeCommand, Constants.closeDescription)
@@ -51,8 +51,8 @@ public class Session {
         return Util.map(history, Object::toString);
     }
 
-    public void listItems(Library library) {
-        writeMessage(library.listAvailableItems());
+    public void listItems(Library library, String headerString) {
+        writeMessage(Message.addPrefix(library.listAvailableItems(), headerString+"\n" ));
         showMainMenu();
     }
 

@@ -32,7 +32,7 @@ public class Movie implements LibraryItem{
 
     @Override
     public String toString() {
-        return String.format("%s, %d, %s, %s, %s",title, year, director, rating, uid);
+        return String.format(Constants.movieFormatString,title, year, director, rating, uid);
     }
 
     @Override

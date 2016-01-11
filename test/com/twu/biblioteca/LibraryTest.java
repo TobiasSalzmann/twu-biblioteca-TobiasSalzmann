@@ -159,8 +159,8 @@ public class LibraryTest {
         Library lib = Library.createBookTestLibrary();
         Message m = lib.listAvailableItems();
         System.out.println(m);
-        assertThat(m.toString().contains("Book 1, Author 1, 1337, 0"), is(true));
-        assertThat(m.toString().contains("Book 2, Author 2, 1976, 1"), is(true));
+        assertThat(m.toString().contains(String.format(Constants.bookFormatString, "Book 1", "Author 1", 1337, "0")), is(true));
+        assertThat(m.toString().contains(String.format(Constants.bookFormatString, "Book 2", "Author 2", 1976, "1")), is(true));
     }
 
 

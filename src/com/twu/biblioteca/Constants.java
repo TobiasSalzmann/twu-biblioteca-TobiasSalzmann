@@ -67,4 +67,13 @@ public class Constants {
 
     public static final String noMatchesString = "No matches for:";
     public static final String notUniqueString = "More than one match for:";
+
+
+
+
+
+    public static final String bookFormatString = "%15s%15s%15s%15s";
+    public static final String bookHeaderString = String.format(bookFormatString, "Title", "Author", "Year", "UID");
+    public static final String movieFormatString = "%15s%15s%15s%15s%15s";
+    public static final String movieHeaderString = String.format(movieFormatString, "Title", "Year", "Director", "Rating", "UID");
 }

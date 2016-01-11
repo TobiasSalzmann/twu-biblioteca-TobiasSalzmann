@@ -20,8 +20,8 @@ public class UserStories2 {
     public void listMovies(){
         Session session = Session.createTestSession();
         session.handleInput(Constants.listMoviesCommand);
-        assertThat(session.history(-2).contains("Movie 1, 1984, Director 1, unrated, 2"),is(true));
-        assertThat(session.history(-2).contains("Movie 2, 1985, Director 2, 7, 3"),is(true));
+        assertThat(session.history(-2).contains("Movie 1"),is(true));
+        assertThat(session.history(-2).contains("Movie 2"),is(true));
     }
 
     @Test
@@ -36,7 +36,9 @@ public class UserStories2 {
         Session session = Session.createTestSession();
         session.handleInput(Constants.checkoutMovieCommand + " Movie 1");
         session.handleInput(Constants.listMoviesCommand);
-        assertEquals("Movie 2, 1985, Director 2, 7, 3", session.history(-2));
+        String[] lines = session.history(-2).split("\n");
+        assertEquals(String.format(Constants.movieFormatString, "Movie 2", 1985, "Director 2", "7", "3"), lines[1]);
+        assertEquals(2, lines.length);
     }
 
     @Test
