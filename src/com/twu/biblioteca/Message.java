@@ -16,7 +16,7 @@ public abstract class Message{
         return simpleMessage(Constants.welcomeString);
     }
 
-    private static Message simpleMessage(String string){
+    static Message simpleMessage(String string){
         return new Message(){
             public String toString(){
                 return string;
@@ -56,5 +56,13 @@ public abstract class Message{
 
     static Message addPrefix(Message message, String headerString) {
         return simpleMessage(headerString + message.toString());
+    }
+
+    public static Message loginSuccessMessage() {
+        return simpleMessage(Constants.loginSuccessString);
+    }
+
+    public static Message loginFailureMessage() {
+        return simpleMessage(Constants. loginFailureString);
     }
 }

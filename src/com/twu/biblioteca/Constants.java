@@ -55,15 +55,6 @@ public class Constants {
     public static final String returnMovieDescription = "Return movie";
     public static final String returnMovieParamName = "<movie>";
 
-    public static final List<LibraryItem> books = Arrays.asList(
-            new Book("Book 1","Author 1", 1337, "0"),
-            new Book("Book 2", "Author 2", 1976, "1")
-    );
-
-    public static final List<LibraryItem> movies = Arrays.asList(
-            new Movie("Movie 1", 1984, "Director 1", "2"),
-            new Movie("Movie 2", 1985, "Director 2", 7,"3")
-    );
 
     public static final String noMatchesString = "No matches for:";
     public static final String notUniqueString = "More than one match for:";
@@ -76,4 +67,14 @@ public class Constants {
     public static final String bookHeaderString = String.format(bookFormatString, "Title", "Author", "Year", "UID");
     public static final String movieFormatString = "%15s%15s%15s%15s%15s";
     public static final String movieHeaderString = String.format(movieFormatString, "Title", "Year", "Director", "Rating", "UID");
+
+
+
+    public static final String loginCommand = "login";
+    public static final String loginParamName = "<userID> <password>";
+    public static final String loginDescription = "Login with user credentials";
+    public static final String loginSuccessString = "Login successful";
+    public static final String loginFailureString = "Access Denied";
+    public static final String userInfoCommand = "userinfo";
+    public static final String userInfoDescription = "Show user info";
 }

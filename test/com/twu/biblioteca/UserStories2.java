@@ -70,4 +70,5 @@ public class UserStories2 {
         session.handleInput(Constants.returnMovieCommand + " Movie 3");
         assertEquals(Constants.noMatchesString + " Movie 3", session.history(-2));
     }
+
 }

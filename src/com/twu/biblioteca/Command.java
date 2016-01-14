@@ -6,22 +6,27 @@ import java.util.function.Supplier;
 /**
  * Created by tsalzman on 1/7/16.
  */
-public class Command {
-    
+public class Command implements Consumer<String[]>{
+
     private String name;
     private String[] paramNames;
     private String description;
     private Consumer<String[]> effect;
 
+    public static Command createCommand(Consumer<String[]> effect, String name, String description, String... paramNames) {
+        return new Command(effect, name, description, paramNames);
+    }
+
     public int getNumArgs(){
         return paramNames.length;
     }
-    
-    public void apply(String[] args){
+
+    @Override
+    public void accept(String[] args){
         effect.accept(args);
     }
 
-    public Command(Consumer<String[]> effect,String name,String description, String... paramNames) {
+    private Command(Consumer<String[]> effect, String name, String description, String... paramNames) {
         this.name = name;
         this.paramNames = paramNames;
         this.description = description;
@@ -38,4 +43,6 @@ public class Command {
         else
             return(name + " " + String.join(" ", paramNames) + " - " + description);
     }
+
+
 }

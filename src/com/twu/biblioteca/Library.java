@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * Created by tsalzman on 1/7/16.
@@ -8,11 +9,11 @@ import java.util.*;
 public class Library {
 
     public static Library createBookTestLibrary(){
-        return new Library(Constants.books);
+        return new Library(LibraryItem.books);
     }
 
     public static Library createMovieTestLibrary(){
-        return new Library(Constants.movies);
+        return new Library(LibraryItem.movies);
     }
 
 
@@ -25,58 +26,40 @@ public class Library {
 
     private final Set<LibraryItem> availableItems;
 
-    private final Set<LibraryItem> unavailableItems;
+    private final HashMap<String, Set<LibraryItem>> unavailableItems;
 
-    public final List<Book> books = Arrays.asList(
-            new Book("Book 1","Author 1", 1337, "0"),
-            new Book("Book 2", "Author 2", 1976, "1")
-    );
-
-    public final List<Movie> movies = Arrays.asList(
-            new Movie("Movie 1", 1984, "Director 1", "2"),
-            new Movie("Movie 2", 1985, "Director 2", 7,"3")
-    );
 
 
     public Library(Collection<LibraryItem> items) {
         itemsByUID = new HashMap<>();
         items.forEach(item -> itemsByUID.put(item.getUID(), item));
         availableItems = new HashSet<>(items);
-        unavailableItems = new HashSet<>();
+        unavailableItems = new HashMap<>();
     }
 
     List<LibraryItem> availableItems() {
         return new LinkedList<>(availableItems);
     }
 
-    public void checkOutItem(LibraryItem item) {
-        availableItems.remove(item);
-        unavailableItems.add(item);
+    public void moveItem(LibraryItem item, Set<LibraryItem> from, Set<LibraryItem> to){
+        from.remove(item);
+        to.add(item);
     }
 
-    public List<LibraryItem> unavailableItems() {
-        return new LinkedList<>(unavailableItems);
-    }
-
-    public void returnItem(LibraryItem item) {
-        unavailableItems.remove(item);
-        availableItems.add(item);
-    }
-
-    public Message tryCheckOut(String description) {
-        if(itemsByUID.containsKey(description) && availableItems.contains(itemsByUID.get(description))){
-            checkOutItem(itemsByUID.get(description));
-            return Message.checkOutSuccessMessage(itemsByUID.get(description));
+    public Message tryMove(String description, Set<LibraryItem> from, Set<LibraryItem> to, Function<LibraryItem, Message> successMessageGen){
+        if(itemsByUID.containsKey(description) && from.contains(itemsByUID.get(description))){
+            moveItem(itemsByUID.get(description), from, to);
+            return successMessageGen.apply(itemsByUID.get(description));
         }
 
-        return tryCheckOutByDescription(description);
+        return tryMoveByDescription(description, from, to, successMessageGen);
     }
 
-    private Message tryCheckOutByDescription(String description) {
-        List<LibraryItem> matches = Util.filter(availableItems, item -> item.match(description));
+    private Message tryMoveByDescription(String description, Set<LibraryItem> from, Set<LibraryItem> to, Function<LibraryItem, Message> successMessageGen) {
+        List<LibraryItem> matches = Util.filter(from, item -> item.match(description));
         if(matches.size() == 1){
-            checkOutItem(matches.get(0));
-            return Message.checkOutSuccessMessage(matches.get(0));
+            moveItem(matches.get(0), from, to);
+            return successMessageGen.apply(matches.get(0));
         }
         else return reportFailure(description, matches);
     }
@@ -88,26 +71,28 @@ public class Library {
             return Message.noMatchesMessage(description);
     }
 
-
-    public Message tryReturn(String description) {
-        if(itemsByUID.containsKey(description) && unavailableItems.contains(itemsByUID.get(description))){
-            checkOutItem(itemsByUID.get(description));
-            return Message.returnSuccessMessage(itemsByUID.get(description));
-        }
-
-        return tryReturnByDescription(description);
+    public List<LibraryItem> unavailableItems(String user) {
+        return new LinkedList<>(unavailableItems.get(user));
     }
 
-    private Message tryReturnByDescription(String description) {
-        List<LibraryItem> matches = Util.filter(unavailableItems, item -> item.match(description));
-        if(matches.size() == 1){
-            checkOutItem(matches.get(0));
-            return Message.returnSuccessMessage(matches.get(0));
-        }
-        else return reportFailure(description, matches);
+    public void returnItem(LibraryItem item) {
+        unavailableItems.remove(item);
+        availableItems.add(item);
+    }
+
+    public Message tryCheckOut(String description, String user) {
+        unavailableItems.putIfAbsent(user, new HashSet<>());
+        return tryMove(description, availableItems, unavailableItems.get(user), Message::checkOutSuccessMessage);
+    }
+
+    public Message tryReturn(String description, String user) {
+        unavailableItems.putIfAbsent(user, new HashSet<>());
+        return tryMove(description, unavailableItems.get(user), availableItems, Message::returnSuccessMessage);
     }
 
     public Message listAvailableItems() {
         return Message.itemListMessage(new LinkedList<>(availableItems));
     }
+
+
 }

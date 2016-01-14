@@ -15,7 +15,7 @@ public class IOTests {
     @Test
     public void connectInputStream(){
         InputStream in = new ByteArrayInputStream("quit".getBytes());
-        Session session = new Session(in, null);
+        Session session = Session.createSimpleSession(Library.createBookTestLibrary(), Library.createMovieTestLibrary(), in, null);
         assertEquals(Constants.quitString, session.lastMessage());
     }
 
@@ -27,7 +27,7 @@ public class IOTests {
         InputStream in = new ByteArrayInputStream("quit".getBytes());
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(bytes);
-        Session session = new Session(in, out);
+        Session session = Session.createSimpleSession(Library.createBookTestLibrary(), Library.createMovieTestLibrary(), in, out);
         assertEquals(Constants.quitString, session.lastMessage());
         String[] lines = bytes.toString().split("\n");
         assertEquals(Constants.welcomeString, lines[0]);
